@@ -1,3 +1,5 @@
+document.documentElement.classList.add("js");
+
 document.addEventListener("DOMContentLoaded", function () {
     const welcomeScreen = document.getElementById("welcome-screen");
     const openBtn = document.getElementById("open-btn");
@@ -7,25 +9,35 @@ document.addEventListener("DOMContentLoaded", function () {
     const playBtn = document.getElementById("play-btn");
     const prevBtn = document.getElementById("prev-btn");
     const nextBtn = document.getElementById("next-btn");
+    const repeatBtn = document.getElementById("repeat-btn");
+    const shuffleBtn = document.getElementById("shuffle-btn");
     const player = document.querySelector(".music-player");
     const progress = document.getElementById("progress");
     const progressBar = document.getElementById("progress-bar");
-
-    // =====================================================
-    //  TAMAÑO DE LA LETRA DEL MENSAJE ("Hoy dejo atrás...")
-    //  Cambiá solo este número:
-    //    1   = el texto ocupa el mismo alto que las fotos (letra chica)
-    //    1.5 = letra más grande (valor actual)
-    //    1.8 = todavía más grande
-    //    2   = bien grande
-    // =====================================================
-    const MESSAGE_SCALE = 1.2;
 
     // Diagnóstico: abrí la página con ?debug=1 al final del link para ver el error de audio
     function debugMsg(text) {
         if (!/[?&]debug/.test(location.search)) return;
         const hint = document.querySelector(".player-hint");
         if (hint) { hint.textContent = text; hint.style.color = "#b00020"; }
+    }
+
+    // ---------- APARECER AL HACER SCROLL ----------
+    let observer = null;
+    if ("IntersectionObserver" in window) {
+        observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("in");
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.12 });
+    }
+    function startReveal() {
+        document.querySelectorAll(".reveal").forEach(function (el) {
+            if (observer) observer.observe(el); else el.classList.add("in");
+        });
     }
 
     // ---------- ABRIR EL SOBRE ----------
@@ -42,63 +54,9 @@ document.addEventListener("DOMContentLoaded", function () {
             mainContent.classList.remove("hidden");
             document.body.classList.remove("welcome-active");
             window.scrollTo(0, 0);
-            requestAnimationFrame(fitAll);
+            startReveal();
         });
     }
-
-    // ---------- TÍTULOS QUE SE AJUSTAN AL ANCHO ----------
-    // Cada título con data-fit queda en un solo renglón; los del mismo grupo usan el mismo tamaño.
-    function fitTitles() {
-        const groups = {};
-        document.querySelectorAll("[data-fit]").forEach(function (el) {
-            (groups[el.dataset.fit] = groups[el.dataset.fit] || []).push(el);
-        });
-        Object.keys(groups).forEach(function (name) {
-            const list = groups[name];
-            let best = Infinity;
-            list.forEach(function (el) {
-                const parent = el.parentElement;
-                const cs = getComputedStyle(parent);
-                const avail = (parent.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight)) * 0.98;
-                if (avail <= 0) return;                       // sección oculta todavía
-                let lo = parseFloat(el.dataset.min || 18);
-                let hi = parseFloat(el.dataset.max || 80);
-                for (let i = 0; i < 14; i++) {
-                    const mid = (lo + hi) / 2;
-                    el.style.fontSize = mid + "px";
-                    if (el.offsetWidth <= avail) lo = mid; else hi = mid;
-                }
-                best = Math.min(best, lo);
-            });
-            if (best !== Infinity) list.forEach(function (el) { el.style.fontSize = best + "px"; });
-        });
-    }
-    // ---------- MENSAJE: tamaño de letra según el alto de las fotos ----------
-    function fitMessage() {
-        document.querySelectorAll(".hero-side").forEach(function (row) {
-            const text = row.querySelector(".message-text");
-            const stack = row.querySelector(".polaroid-stack");
-            if (!text || !stack) return;
-            const target = stack.offsetHeight * MESSAGE_SCALE;
-            if (target <= 0) return;                          // sección oculta todavía
-            let lo = 14, hi = 48;
-            for (let i = 0; i < 14; i++) {
-                const mid = (lo + hi) / 2;
-                text.style.fontSize = mid + "px";
-                if (text.offsetHeight <= target) lo = mid; else hi = mid;
-            }
-            text.style.fontSize = lo + "px";
-        });
-    }
-    function fitAll() { fitTitles(); fitMessage(); }
-
-    let fitTimer;
-    window.addEventListener("resize", function () {
-        clearTimeout(fitTimer);
-        fitTimer = setTimeout(fitAll, 120);
-    });
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitAll);
-    window.addEventListener("load", fitAll);
 
     // ---------- REPRODUCTOR ----------
     function syncPlayerState() {
@@ -138,6 +96,19 @@ document.addEventListener("DOMContentLoaded", function () {
     [prevBtn, nextBtn].forEach(function (btn) {
         if (btn) btn.addEventListener("click", function () { music.currentTime = 0; });
     });
+
+    // Repetir: activa / desactiva el bucle (empieza activado)
+    if (repeatBtn && music) {
+        repeatBtn.classList.add("is-on");
+        repeatBtn.addEventListener("click", function () {
+            music.loop = !music.loop;
+            repeatBtn.classList.toggle("is-on", music.loop);
+        });
+    }
+    // Aleatorio: solo decorativo (hay una sola canción)
+    if (shuffleBtn) {
+        shuffleBtn.addEventListener("click", function () { shuffleBtn.classList.toggle("is-on"); });
+    }
 
     // Tocar la barra para saltar a ese punto de la canción
     if (progress) {
