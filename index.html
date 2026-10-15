@@ -6,7 +6,7 @@
     <title>Mis 13 Años - Liliana</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Allura&family=Mrs+Saint+Delafield&family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Courier+Prime&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Allura&family=Mrs+Saint+Delafield&family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Monsieur+La+Doulaise&family=Courier+Prime&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css?v=33">
 </head>
 <body class="welcome-active">
@@ -37,12 +37,26 @@
     <main id="main-content" class="hidden">
 
         <!-- Sección 1: título, nombre en globos, reproductor, mensaje + polaroids -->
-        <section class="hero-section">
-            <h1 class="top-subtitle glow fit-line" data-fit="hero" data-max="110" data-min="30">It's my birthday</h1>
+        <svg class="tiara" viewBox="0 0 220 90" aria-hidden="true">
+    <defs>
+        <linearGradient id="plata" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="90">
+            <stop offset="0" stop-color="#f7f9fb"/>
+            <stop offset=".45" stop-color="#aeb9c8"/>
+            <stop offset=".7" stop-color="#7f8ea6"/>
+            <stop offset="1" stop-color="#dfe5ee"/>
+        </linearGradient>
+    </defs>
+    <path d="M10 78 Q110 64 210 78" fill="none" stroke="url(#plata)" stroke-width="5" stroke-linecap="round"/>
+    <path d="M22 76 L34 40 L48 66 L64 28 L80 62 L110 8 L140 62 L156 28 L172 66 L186 40 L198 76" fill="none" stroke="url(#plata)" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+    <g fill="url(#plata)" stroke="#7f8ea6" stroke-width=".8">
+        <circle cx="110" cy="8" r="6"/>
+        <circle cx="64" cy="26" r="4.5"/><circle cx="156" cy="26" r="4.5"/>
+        <circle cx="34" cy="38" r="3.8"/><circle cx="186" cy="38" r="3.8"/>
+    </g>
+</svg>
 
-            <div class="name-balloons-container">
-                <img src="icono1.gif?v=3" alt="Liliana" class="name-balloons-icon">
-            </div>
+<h1 class="hero-name fit-line" data-fit="hero" data-max="150" data-min="40">Liliana</h1>
+<p class="player-hint">Presioná PLAY para reproducir la canción</p>
 
             <div class="music-player" aria-label="Reproductor de música">
                 <div class="progress" id="progress" role="progressbar" aria-label="Progreso de la canción">
@@ -67,7 +81,12 @@
                     </button>
                 </div>
             </div>
-
+        
+<div class="mis-anios">
+    <span class="mis-script">Mis</span>
+    <span class="mis-num">13</span>
+    <span class="mis-script">años</span>
+</div>
             <div class="hero-row hero-side">
                 <div class="message">
                     <p class="message-text">Dejo atrás la niñez con una sonrisa gigante y abro los brazos para recibir una de las etapas más esperadas: mis 13 años. Comienza un nuevo camino lleno de sueños por cumplir y quiero celebrarlo rodeado de la gente que más quiero. Tu amistad y tu compañía son muy importantes para mí, por eso no puedo imaginar esta noche tan especial sin ti.</p>
