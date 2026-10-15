@@ -927,3 +927,10 @@ main#main-content > section { position: relative; z-index: 1; }
 /* Círculos de colores prohibidos: planos, sin degradado */
 .swatch-blue { background: #1b4a9e; }
 .swatch-gold { background: #d4af37; box-shadow: 0 3px 8px rgba(27, 54, 93, .25); }
+
+/* ---------- 28. COLORES RESERVADOS ---------- */
+.forbidden-title{max-width:380px;margin:0 auto;line-height:1.6}
+.swatch-silver{
+    background:linear-gradient(135deg,#ffffff 0%,#c9d1dc 30%,#8d99ad 55%,#e6eaf0 78%,#aeb9c8 100%);
+    box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.6),0 3px 8px rgba(27,54,93,.25);
+}
