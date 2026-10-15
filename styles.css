@@ -848,6 +848,82 @@ main#main-content { overflow-x: clip; }
     box-shadow: 0 10px 24px rgba(27, 54, 93, .3);
 }
 
+/* ---------- 27. BIENVENIDA CON FLORES, SOBRE NUEVO Y FONDO COMPLETO ---------- */
+
+/* Pantalla de bienvenida: mismo fondo florido que la invitación */
+#welcome-screen {
+    padding: 0;
+    align-items: stretch;
+    color: var(--texto);
+    background: linear-gradient(180deg, #e9f0f8 0%, #d2e0ef 100%);
+}
+.welcome-card {
+    position: relative;
+    width: min(100%, 560px);
+    margin: 0 auto;
+    padding: 24px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background: #f8f7f7;
+    box-shadow: 0 0 50px rgba(16, 36, 66, .22);
+}
+.welcome-content { position: relative; z-index: 1; }
+
+/* Nombre y textos en el azul intenso */
+.welcome-name {
+    color: #1b365d;
+    text-shadow: none;
+    -webkit-text-stroke: .5px #1b365d;
+}
+.welcome-sub,
+.welcome-instruction { color: #1b365d; text-shadow: none; }
+
+/* Sobre (imagen) */
+.envelope-btn {
+    width: min(70vw, 300px);
+    filter: drop-shadow(0 12px 18px rgba(27, 54, 93, .25));
+}
+.envelope-img { width: 100%; height: auto; }
+
+/* Flores de arriba y de abajo, con borde difuminado para que no se corten */
+.welcome-card::before, .welcome-card::after,
+main#main-content::before, main#main-content::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 100%;
+    aspect-ratio: 864 / 1022;
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    pointer-events: none;
+    z-index: 0;
+}
+.welcome-card::before, main#main-content::before {
+    top: 0;
+    background-image: url("fondo-arriba.jpg");
+    background-position: top center;
+    -webkit-mask-image: linear-gradient(to bottom, #000 70%, transparent 100%);
+            mask-image: linear-gradient(to bottom, #000 70%, transparent 100%);
+}
+.welcome-card::after, main#main-content::after {
+    bottom: 0;
+    background-image: url("fondo-abajo.jpg");
+    background-position: bottom center;
+    -webkit-mask-image: linear-gradient(to top, #000 70%, transparent 100%);
+            mask-image: linear-gradient(to top, #000 70%, transparent 100%);
+}
+
+/* Centro de la página: manchas suaves de acuarela en vez de blanco vacío */
+main#main-content {
+    background:
+        radial-gradient(ellipse 70% 14% at 0% 30%, rgba(143, 208, 245, .25), transparent 70%),
+        radial-gradient(ellipse 70% 14% at 100% 50%, rgba(143, 190, 235, .22), transparent 70%),
+        radial-gradient(ellipse 70% 14% at 0% 70%, rgba(160, 205, 240, .22), transparent 70%),
+        #f8f7f7;
+}
+main#main-content > section { position: relative; z-index: 1; }
 /* Círculos de colores prohibidos: planos, sin degradado */
 .swatch-blue { background: #1b4a9e; }
 .swatch-gold { background: #d4af37; box-shadow: 0 3px 8px rgba(27, 54, 93, .25); }
